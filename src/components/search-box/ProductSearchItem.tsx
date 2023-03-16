@@ -17,6 +17,7 @@ import { addItemToCartAction } from "features/actions/cartActions";
 import useProduct from "@hook/useProduct";
 import AddToCartButton from "@component/cart/AddToCartButton";
 import RenderConditional from "@component/common/RenderConditional";
+import ProductModal from "@component/products/ProductModal";
 
 const Wrapper = styled.div``;
 
@@ -28,6 +29,8 @@ interface IProps {
 const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
   const { accessToken } = useAppSelector((state) => state.users);
 
+  const [open, setOpen] = useState(false);
+
   const {
     productPrice,
     discountedPrice,
@@ -37,19 +40,25 @@ const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
     cartItem,
     isLoading,
     addProductToCart,
+    personalDiscount,
+    offerPercentage,
     image,
   } = useProduct({
     product,
   });
 
+  const toggleDialog = () => {
+    setOpen((current) => !current);
+  };
+
   return (
     <FlexBox
       justifyContent="space-between"
       alignItems="start"
-      mb="8px"
+      // mb="8px"
       style={{
         borderBottom: "1px solid #e8e8e8",
-        padding: "0 8px 4px",
+        padding: "12px 8px",
       }}
     >
       <FlexBox
@@ -59,13 +68,12 @@ const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
         }}
       >
         <div
-          onClick={() => {
-            closeSearchBox();
-          }}
+          onClick={toggleDialog}
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            cursor: "pointer",
           }}
         >
           <img
@@ -80,7 +88,15 @@ const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
         </div>
 
         <div>
-          <Typography fontWeight={700} fontSize="16px" mx={"0.2rem"}>
+          <Typography
+            fontWeight={600}
+            fontSize="14px"
+            mx={"0.2rem"}
+            style={{
+              cursor: "pointer",
+            }}
+            onClick={toggleDialog}
+          >
             {product.name}
           </Typography>
 
@@ -93,7 +109,7 @@ const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
                   </SemiSpan>
 
                   <SemiSpan color="text.muted" fontWeight="600">
-                    <del>{productPrice}</del>
+                    <del>{productPrice} Kr</del>
                   </SemiSpan>
                 </FlexBox>
               </>
@@ -128,9 +144,34 @@ const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
           )}
         </div>
       </FlexBox>
-      <ProductCardCart
-        addProductToCart={addProductToCart}
+      <RenderConditional
+        when={!!accessToken}
+        render={
+          <ProductCardCart
+            isLoading={isLoading}
+            addProductToCart={addProductToCart}
+            cartItem={cartItem}
+          />
+        }
+        otherwise={<></>}
+      />
+
+      <ProductModal
+        open={open}
+        toggle={toggleDialog}
         cartItem={cartItem}
+        isLoading={isLoading}
+        addProductToCart={addProductToCart}
+        imgUrl={[image]}
+        product={product}
+        handleUnitChange={handleUnitChange}
+        toggleDialog={toggleDialog}
+        selectedUnit={selectedUnit}
+        price={productPrice}
+        discountedPrice={discountedPrice}
+        personalDiscount={personalDiscount}
+        offerPercentage={offerPercentage}
+        inStock={totalStock}
       />
     </FlexBox>
   );

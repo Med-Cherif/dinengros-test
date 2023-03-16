@@ -165,10 +165,21 @@ const Navbar: React.FC<NavbarProps> = ({ navListOpen }) => {
         if (nav.child)
           return (
             <FlexBox
+              onMouseLeave={() => {
+                if (nav.custom) {
+                  setCategoriesVisible(false);
+                }
+              }}
               className="root"
               position={nav.custom ? "static" : "relative"}
               flexDirection="column"
               alignItems="center"
+              {...(nav.custom
+                ? {
+                    height: "100%",
+                    justifyContent: "center",
+                  }
+                : {})}
               key={nav.title}
               onMouseEnter={() => {
                 if (nav.custom) {
@@ -256,7 +267,7 @@ const Navbar: React.FC<NavbarProps> = ({ navListOpen }) => {
   };
 
   return (
-    <StyledNavbar onMouseLeave={() => setCategoriesVisible(false)}>
+    <StyledNavbar>
       <Container
         display="flex"
         // justifyContent="space-between"
@@ -281,7 +292,7 @@ const Navbar: React.FC<NavbarProps> = ({ navListOpen }) => {
           </Button>
         </Categories> */}
 
-        <FlexBox alignItems="center">
+        <FlexBox alignItems="center" height="100%">
           {renderNestedNav(navbarNavigations, true)}
         </FlexBox>
       </Container>

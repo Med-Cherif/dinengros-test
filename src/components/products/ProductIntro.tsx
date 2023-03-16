@@ -135,7 +135,14 @@ const ProductIntro: React.FC<ProductIntroProps> = ({
                   }
                   onClick={handleImageClick(ind)}
                 >
-                  <Avatar src={url} borderRadius="10px" size={40} />
+                  <Avatar
+                    src={url}
+                    borderRadius="10px"
+                    size={40}
+                    imgStyle={{
+                      objectFit: "contain",
+                    }}
+                  />
                 </Box>
               ))}
             </FlexBox>
@@ -188,7 +195,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({
                         ml=".5rem"
                         fontSize="18px"
                       >
-                        <del>{price}</del>
+                        <del>{price} Kr</del>
                       </SemiSpan>
                     )}
                   </H2>
@@ -209,6 +216,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({
                       ))}
                     </FlexBox>
                     <ProductCardCart
+                      isLoading={isLoading}
                       addProductToCart={addProductToCart}
                       cartItem={cartItem}
                     />

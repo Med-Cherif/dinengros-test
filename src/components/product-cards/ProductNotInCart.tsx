@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import Button from "@component/buttons/Button";
 import FlexBox from "@component/FlexBox";
 import Icon from "@component/icon/Icon";
@@ -7,11 +6,10 @@ import useLoading from "@hook/useLoading";
 
 interface IProps {
   addProductToCart: (onSuccess?: () => void) => void;
+  isLoading: boolean;
 }
 
-const ProductNotInCart = ({ addProductToCart }: IProps) => {
-  const timeout = useRef<NodeJS.Timeout>(null);
-  const { load, isLoading, stopLoad } = useLoading();
+const ProductNotInCart = ({ isLoading, addProductToCart }: IProps) => {
   return (
     <FlexBox alignItems="end">
       <FlexBox alignItems="center">
@@ -40,9 +38,9 @@ const ProductNotInCart = ({ addProductToCart }: IProps) => {
           onClick={(e) => {
             e.stopPropagation();
 
-            load();
+            // load();
             addProductToCart(() => {
-              stopLoad();
+              // stopLoad();
             });
           }}
           //   disabled={cartItem.qty === 100}

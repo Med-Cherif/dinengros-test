@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   width: 100%;
   /* min-height: 200px; */
   max-height: 480px;
-  padding: 12px 0px;
+  /* padding: 12px 0px; */
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
@@ -95,7 +95,9 @@ const SearchContent = ({
           <Spinner />
         </FlexBox>
       ) : !query || products.length === 0 ? (
-        <NoResults />
+        <FlexBox alignItems="center" justifyContent="center" p="16px">
+          <NoResults />
+        </FlexBox>
       ) : (
         <>
           {products.map((product) => {

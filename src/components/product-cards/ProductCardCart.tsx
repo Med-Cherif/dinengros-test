@@ -10,14 +10,18 @@ import ProductNotInCart from "./ProductNotInCart";
 
 interface IProps {
   cartItem: ICartItem;
+  isLoading: boolean;
   addProductToCart: (onSuccess?: () => void) => void;
 }
 
-const ProductCardCart = ({ cartItem, addProductToCart }: IProps) => {
+const ProductCardCart = ({ isLoading, cartItem, addProductToCart }: IProps) => {
   return cartItem ? (
     <ProductInCart cartItem={cartItem} />
   ) : (
-    <ProductNotInCart addProductToCart={addProductToCart} />
+    <ProductNotInCart
+      isLoading={isLoading}
+      addProductToCart={addProductToCart}
+    />
   );
 };
 

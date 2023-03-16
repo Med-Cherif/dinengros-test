@@ -14,6 +14,7 @@ import getNextDate from "helpers/getNextDate";
 import styled from "styled-components";
 import { ErrorFeedback } from "@component/delivery/GetSelf";
 import CheckEmptyList from "@component/common/CheckEmptyList";
+import noDeliveryImg from "../../../public/assets/images/illustrations/delivery-empty.svg";
 
 const weekDays = [
   "sunday",
@@ -129,10 +130,10 @@ const CheckoutForm = ({ formik, sameAddress, setSameAddress }: IProps) => {
                   maxWidth: "100%",
                   maxHeight: "100%",
                 }}
-                src="/assets/images/illustrations/delivery-empty.svg"
+                src={noDeliveryImg.src}
                 alt="delivery-not-found"
               />
-              <H5>You don't have a zone do delivery</H5>
+              <H5>You don't have a zone to delivery</H5>
             </div>
           </>
         ) : (

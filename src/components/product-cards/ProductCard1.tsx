@@ -23,6 +23,7 @@ import ProductCardCart from "./ProductCardCart";
 import useProduct from "@hook/useProduct";
 import RenderConditional from "@component/common/RenderConditional";
 import AddToCartButton from "@component/cart/AddToCartButton";
+import ProductModal from "@component/products/ProductModal";
 
 const ProductCard = styled(StyledProductCard1)(() => ({
   border: "1px solid gainsboro",
@@ -89,7 +90,12 @@ const ProductCard1: React.FC<ProductCard1Props> = ({ product, ...props }) => {
       <div className="image-holder">
         {userData.id && (
           <>
-            <FlexBox className="extra-icons">
+            <FlexBox
+              className="extra-icons"
+              style={{
+                display: "block",
+              }}
+            >
               <FavoriteIcons productID={+product?.id} />
             </FlexBox>
           </>
@@ -179,7 +185,7 @@ const ProductCard1: React.FC<ProductCard1Props> = ({ product, ...props }) => {
                           </SemiSpan>
 
                           <SemiSpan color="text.muted" fontWeight="600">
-                            <del>{productPrice}</del>
+                            <del>{productPrice} Kr</del>
                           </SemiSpan>
                         </>
                       }
@@ -201,71 +207,37 @@ const ProductCard1: React.FC<ProductCard1Props> = ({ product, ...props }) => {
             />
           </Box>
 
-          {/* {!cartItem ? (
-            <FlexBox
-              flexDirection="column-reverse"
-              alignItems="center"
-              width="30px"
-            >
-              <AddToCartButton
+          <RenderConditional
+            when={!!accessToken}
+            render={
+              <ProductCardCart
                 isLoading={isLoading}
-                onClick={() => addProductToCart()}
+                addProductToCart={addProductToCart}
+                cartItem={cartItem}
               />
-            </FlexBox>
-          ) : (
-            )} */}
-          <ProductCardCart
-            addProductToCart={addProductToCart}
-            cartItem={cartItem}
+            }
+            otherwise={<></>}
           />
         </FlexBox>
       </div>
 
-      <Modal open={open} onClose={toggleDialog}>
-        <Card
-          p="2rem"
-          position="relative"
-          style={{
-            width: "100%",
-            maxWidth: 750,
-            minHeight: 350,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <ProductIntro
-            cartItem={cartItem}
-            isLoading={isLoading}
-            addProductToCart={addProductToCart}
-            imgUrl={[image]}
-            product={product}
-            handleUnitChange={handleUnitChange}
-            toggleDialog={toggleDialog}
-            selectedUnit={selectedUnit}
-            price={productPrice}
-            discountedPrice={discountedPrice}
-            personalDiscount={personalDiscount}
-            offerPercentage={offerPercentage}
-            inStock={totalStock}
-          />
-          <Box
-            position="absolute"
-            top="0.75rem"
-            right="0.75rem"
-            cursor="pointer"
-          >
-            <Icon
-              className="close"
-              color="primary"
-              variant="small"
-              onClick={toggleDialog}
-            >
-              close
-            </Icon>
-          </Box>
-        </Card>
-      </Modal>
+      <ProductModal
+        open={open}
+        toggle={toggleDialog}
+        cartItem={cartItem}
+        isLoading={isLoading}
+        addProductToCart={addProductToCart}
+        imgUrl={[image]}
+        product={product}
+        handleUnitChange={handleUnitChange}
+        toggleDialog={toggleDialog}
+        selectedUnit={selectedUnit}
+        price={productPrice}
+        discountedPrice={discountedPrice}
+        personalDiscount={personalDiscount}
+        offerPercentage={offerPercentage}
+        inStock={totalStock}
+      />
     </ProductCard>
   );
 };

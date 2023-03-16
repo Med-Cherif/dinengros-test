@@ -59,6 +59,9 @@ const MiniCartItem = ({ item }: IProps) => {
             <Avatar
               src={images?.at(0) || noProductImage || NoImage.src}
               mx="1rem"
+              imgStyle={{
+                objectFit: "contain",
+              }}
               alt={item.product.name}
               size={76}
             />
