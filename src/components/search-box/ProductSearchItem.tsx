@@ -62,7 +62,7 @@ const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
       }}
     >
       <FlexBox
-        // alignItems="center"
+        alignItems="center"
         style={{
           gap: 4,
         }}
@@ -78,9 +78,10 @@ const ProductSearchItem = ({ product, closeSearchBox }: IProps) => {
         >
           <img
             style={{
-              objectFit: "cover",
-              width: 56,
-              height: "auto",
+              objectFit: "contain",
+              width: 60,
+              height: 60,
+              objectPosition: "left",
             }}
             src={image}
             alt=""

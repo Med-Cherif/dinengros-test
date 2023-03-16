@@ -133,7 +133,7 @@ const CheckoutForm = ({ formik, sameAddress, setSameAddress }: IProps) => {
                 src={noDeliveryImg.src}
                 alt="delivery-not-found"
               />
-              <H5>You don't have a zone to delivery</H5>
+              <H5 mt="12px">You don't have a zone to delivery</H5>
             </div>
           </>
         ) : (
@@ -173,7 +173,7 @@ const CheckoutForm = ({ formik, sameAddress, setSameAddress }: IProps) => {
                       maxWidth: "100%",
                       maxHeight: "100%",
                     }}
-                    src="/delivery-empty.png"
+                    src={noDeliveryImg.src}
                     alt="delivery-not-found"
                   />
                   <H5 textAlign="center">
