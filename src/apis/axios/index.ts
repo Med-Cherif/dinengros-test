@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL, TEST_API_URL } from "config/apiUrl";
 
 const axiosInstance = axios.create({
-  baseURL: API_URL,
+  baseURL: TEST_API_URL,
   // headers: { "Accept-Encoding": "gzip,deflate,compress" }
 });
 
@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
 );
 
 const axiosWebInstance = axios.create({
-  baseURL: `${API_URL}/web`,
+  baseURL: `${TEST_API_URL}/web`,
   // headers: { "Accept-Encoding": "gzip,deflate,compress" }
 });
 
