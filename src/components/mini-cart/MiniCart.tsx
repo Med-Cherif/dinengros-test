@@ -41,8 +41,6 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
   //   );
   // };
 
-  const cartList: any = [];
-
   const { cart } = useAppSelector((state) => state.cart);
 
   return (

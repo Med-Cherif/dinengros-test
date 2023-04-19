@@ -37,7 +37,7 @@ const Category = () => {
   useEffect(() => {
     navigateToPage(1);
     dispatch(getProductsAction({page: currentPage, name: nameFromQuery}))
-  }, [nameFromQuery])
+  }, [nameFromQuery, router.query.fetchId])
 
   return (
     <Box pt="20px">

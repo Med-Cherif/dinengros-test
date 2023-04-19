@@ -5,7 +5,7 @@ export const getAllProducts = (data?: any) => {
         params: {
             ...data,
             status: 'active',
-            issues: "no_issues"
+            // issues: "no_issues"
         },
     });
 }

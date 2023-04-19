@@ -54,28 +54,21 @@ const MiniCartItem = ({ item }: IProps) => {
           </Button>
         </FlexBox>
 
-        <Link href={`/product/${item.product.id}`}>
-          <a>
-            <Avatar
-              src={images?.at(0) || noProductImage || NoImage.src}
-              mx="1rem"
-              imgStyle={{
-                objectFit: "contain",
-              }}
-              alt={item.product.name}
-              size={76}
-            />
-          </a>
-        </Link>
+        <Avatar
+          src={images?.at(0) || noProductImage || NoImage.src}
+          mx="1rem"
+          imgStyle={{
+            objectFit: "contain",
+          }}
+          alt={item.product.name}
+          size={76}
+        />
 
         <div className="product-details">
-          <Link href={`/product/${item.product.id}`}>
-            <a>
-              <H5 className="title" fontSize="14px">
-                {item.product.name}
-              </H5>
-            </a>
-          </Link>
+          <H5 className="title" fontSize="14px">
+            {item.product.name}
+          </H5>
+
           <Tiny color="text.muted">
             {item.price.toFixed(2)} Kr x {item.qty}
           </Tiny>

@@ -82,6 +82,11 @@ const list = [
     href: "/",
   },
   {
+    title: "Catalogue",
+    icon: "",
+    href: "/catalogue",
+  },
+  {
     title: "Tilbud",
     icon: "hot-deal",
     href: "/offers",

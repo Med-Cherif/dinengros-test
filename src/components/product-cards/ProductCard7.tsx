@@ -82,18 +82,15 @@ const ProductCard7: React.FC<ProductCard7Props & SpaceProps> = ({
             gap: 12,
           }}
         >
-          <Link href={`/product/${item.product.id}`}>
-            <a>
-              <Typography
-                className="title"
-                fontWeight="600"
-                fontSize="18px"
-                // mb="0.5rem"
-              >
-                {item.product.name}{" "}
-              </Typography>
-            </a>
-          </Link>
+          <Typography
+            className="title"
+            fontWeight="600"
+            fontSize="18px"
+            // mb="0.5rem"
+          >
+            {item.product.name}{" "}
+          </Typography>
+
           <FavoriteIcons productID={+item?.product?.id} />
         </FlexBox>
         <Box position="absolute" right="1rem" top="1rem">

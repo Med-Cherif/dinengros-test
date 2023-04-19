@@ -10,6 +10,7 @@ import MenuItem from "../MenuItem";
 import TextField from "../text-field/TextField";
 import StyledSearchBox from "./SearchBoxStyle";
 import SearchContent from "./SearchContent";
+import { v4 as uuidv4 } from "uuid";
 
 export interface SearchBoxProps {}
 
@@ -46,7 +47,7 @@ const AdvancedSearchBox: React.FC<SearchBoxProps> = () => {
     e.preventDefault();
     router.push({
       pathname: category.id ? `/categories/${category.id}` : "/categories",
-      query: { ...(searchQuery && { name: searchQuery }) },
+      query: { ...(searchQuery && { name: searchQuery, fetchId: uuidv4() }) },
     });
   };
 

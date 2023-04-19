@@ -71,6 +71,10 @@ const Navbar: React.FC<NavbarProps> = ({ navListOpen }) => {
             },
           ],
         },
+        {
+          title: "Catalogue",
+          url: "/catalogue",
+        },
       ]
     : [
         {
@@ -115,6 +119,10 @@ const Navbar: React.FC<NavbarProps> = ({ navListOpen }) => {
               url: "/wish-list",
             },
           ],
+        },
+        {
+          title: "Catalogue",
+          url: "/catalogue",
         },
       ];
 
