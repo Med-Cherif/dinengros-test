@@ -8,17 +8,20 @@ interface IProps {
   onCenterIconClick: () => void;
 }
 
-const StyledIcon = styled("div")(() => {
-  return {
-    cursor: "pointer",
-    display: "flex",
-    fontSize: 22,
-    transition: "transform .3s",
-    "&:hover": {
-      transform: "scale(1.3)",
-    },
-  };
-});
+const StyledIcon = styled("div")`
+  cursor: pointer;
+  display: flex;
+  font-size: 22px;
+  transition: transform 0.3s;
+  @media (max-width: 575px) {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    &:hover {
+      transform: scale(1.3);
+    }
+  }
+`;
 
 const CatalogueIcon = ({ icon, onTopIconClick, onCenterIconClick }: IProps) => {
   return (

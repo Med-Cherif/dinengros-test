@@ -1,14 +1,26 @@
-import FlexBox from "@component/FlexBox";
-import CatalogueHeader from "@component/catalogue/CatalogueHeader";
-import CatalogueContent from "@component/catalogue/CatalogueContent";
-import CatalogueFooter from "@component/catalogue/CatalogueFooter";
 import { useAppSelector } from "@hook/useRedux";
 import Head from "next/head";
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import CatalogueWrapper from "@component/catalogue/CatalogueWrapper";
+import CatalogueFirstPage from "@component/catalogue/CatalogueFirstPage";
+import CatalogueProductsSinglePage from "@component/catalogue/CatalogueProductsSinglePage";
+import CataloguePage from "@component/catalogue/CataloguePage";
+import handleProductsCatalogue, {
+  sliceCatalogue,
+} from "@helpers/handleProductsCatalogue";
+import useWindowSize from "@hook/useWindowSize";
+import { catalogueProducts } from "data/catalogue";
+import catalogueImg from "../../../public/assets/images/catalogue/catalogue-last.jpg";
 
 const Catelogue = () => {
   const setup = useAppSelector((state) => state.setup);
+  const [activePage, setActivePage] = useState(1);
+
+  const catalogue = handleProductsCatalogue(catalogueProducts);
+  const pages = sliceCatalogue(catalogue);
+
+  const width = useWindowSize();
+
   return (
     <>
       <Head>
@@ -28,11 +40,27 @@ const Catelogue = () => {
         <meta name="apple-mobile-web-app-title" content={setup.website.name} />
         <meta name="application-name" content={setup.website.name} />
       </Head>
-      <FlexBox minHeight="100vh" flexDirection="column">
-        <CatalogueHeader />
-        <CatalogueContent />
-        <CatalogueFooter />
-      </FlexBox>
+      <CatalogueWrapper activePage={activePage} setActivePage={setActivePage}>
+        <CatalogueFirstPage />
+        {width
+          ? width < 992
+            ? Object.entries(catalogue).map(([prop, products], index) => {
+                return (
+                  <CatalogueProductsSinglePage key={prop} products={products} />
+                );
+              })
+            : pages.map((page, idx) => {
+                return (
+                  <CataloguePage
+                    key={idx}
+                    list1={page.list1}
+                    list2={page.list2}
+                  />
+                );
+              })
+          : null}
+        <CatalogueFirstPage img={catalogueImg.src} />
+      </CatalogueWrapper>
     </>
   );
 };

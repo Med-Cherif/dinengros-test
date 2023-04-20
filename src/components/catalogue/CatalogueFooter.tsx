@@ -13,6 +13,7 @@ const CatalogueFooter = () => {
       paddingX={3}
       paddingY={2}
       justifyContent="center"
+      zIndex={2}
     >
       <Typography fontSize=".9rem" color="gray.500">
         All rights reserved ©{" "}

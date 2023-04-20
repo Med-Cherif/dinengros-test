@@ -9,3 +9,13 @@ export interface IProductCatalogue {
 export interface ICatalogue {
   [pageNumber: string]: IProductCatalogue[];
 }
+
+export interface IZoomPosition {
+  x: number;
+  y: number;
+}
+
+export interface IZoom {
+  zoomed: boolean;
+  zoomPosition: IZoomPosition;
+}
