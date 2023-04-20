@@ -29,7 +29,7 @@ const CatalogueProductItem = ({ product }: IProps) => {
         <img
           src={product.img}
           style={{ width: 48, height: 48, objectFit: "contain" }}
-          alt=""
+          alt={product.name}
         />
         <div style={{ textAlign: "center" }}>
           <H4 fontSize="8px" fontWeight={400}>

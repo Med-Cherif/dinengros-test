@@ -171,6 +171,7 @@ const CatalogueGridParent = ({
   return (
     <StyledParent
       ref={parentRef}
+      className="slider-container"
       firstOrLast={activePage <= 1}
       zoom={zoomData.zoomed}
       isMedium={isMedium}
@@ -188,7 +189,7 @@ const CatalogueGridParent = ({
           return (
             <div
               key={index}
-              onClick={() => {}}
+              // className="catalogue-page"
               style={{
                 transform: `translateX(${index * 100}%)`,
               }}

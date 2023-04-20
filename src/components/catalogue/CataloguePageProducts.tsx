@@ -28,7 +28,7 @@ const CataloguePageProducts = ({ products }: IProps) => {
     // console.log(products);
   }, []);
   return (
-    <Grid item xs={6} style={{ height: "100%" }}>
+    <Grid item xs={6} style={{}}>
       <CatalogueProductsSinglePage products={products} />
     </Grid>
   );

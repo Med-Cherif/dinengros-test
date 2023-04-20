@@ -14,6 +14,7 @@ const CatalogueFirstPage = ({ img = catalogueImg.src }) => {
   return (
     <Image
       // ref={imageRef}
+      className="catalogue-page"
       src={img}
       alt=""
     />

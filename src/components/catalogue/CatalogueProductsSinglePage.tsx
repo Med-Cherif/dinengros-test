@@ -23,7 +23,7 @@ interface IProps {
 
 const CatalogueProductsSinglePage = ({ products }: IProps) => {
   return (
-    <WrapperStyled>
+    <WrapperStyled className="catalogue-page">
       <GridWrapper>
         {products.map((product, idx) => {
           return <CatalogueProductItem key={idx} product={product} />;
