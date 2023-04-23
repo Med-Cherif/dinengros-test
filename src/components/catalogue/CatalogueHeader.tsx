@@ -9,6 +9,7 @@ import styled from "styled-components";
 import HeaderHoverEffect from "./HeaderHoverEffect";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import useWindowSize from "@hook/useWindowSize";
 
 const StyledPagesControl = styled.div`
   position: absolute;
@@ -30,6 +31,9 @@ const StyledPagesControl = styled.div`
 const CatalogueHeader = ({ activePage, childrenCount }) => {
   const setup = useAppSelector((state) => state.setup);
 
+  const width = useWindowSize();
+  const isMedium = width < 992;
+
   const onPdfClick = async () => {
     const pages = document.querySelectorAll(".catalogue-page");
 
@@ -41,14 +45,12 @@ const CatalogueHeader = ({ activePage, childrenCount }) => {
 
     const parent = document.querySelector(".slider-container") as HTMLElement;
 
+    if (!isMedium) {
+      parent.style.minWidth = `${640}px`;
+    }
+
     for (let i = 0; i < pages.length; i++) {
       const page = pages[i] as any;
-
-      // console.log(page.getBoundingClientRect().width);
-
-      // parent.style.width = `${640}px`;
-
-      console.log(page.getBoundingClientRect().width);
 
       const canvas = await html2canvas(page, {
         scale: 2,
@@ -66,7 +68,8 @@ const CatalogueHeader = ({ activePage, childrenCount }) => {
       }
     }
 
-    // parent.style.width = "320px";
+    parent.style.minWidth = "unset";
+
     pdf.save("catalogue.pdf");
   };
 
