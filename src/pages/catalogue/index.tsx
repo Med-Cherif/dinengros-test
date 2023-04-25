@@ -1,6 +1,7 @@
 import { useAppSelector } from "@hook/useRedux";
 import Head from "next/head";
 import React, { useState } from "react";
+import { GetServerSideProps } from "next";
 import CatalogueWrapper from "@component/catalogue/CatalogueWrapper";
 import CatalogueFirstPage from "@component/catalogue/CatalogueFirstPage";
 import CatalogueProductsSinglePage from "@component/catalogue/CatalogueProductsSinglePage";
@@ -11,12 +12,22 @@ import handleProductsCatalogue, {
 import useWindowSize from "@hook/useWindowSize";
 import { catalogueProducts } from "data/catalogue";
 import catalogueImg from "../../../public/assets/images/catalogue/catalogue-last.jpg";
+import { IProductCatalogue } from "interfaces/catalogue";
+import { IFilePath } from "interfaces/file";
+import { getCatalogueApi } from "apis/products/catalogueApi";
+import handleFile from "@helpers/handleFile";
 
-const Catelogue = () => {
+interface IProps {
+  products: IProductCatalogue[];
+  firstImage: string | null;
+  lastImage: string | null;
+}
+
+const Catelogue = ({ firstImage, lastImage, products }: IProps) => {
   const setup = useAppSelector((state) => state.setup);
   const [activePage, setActivePage] = useState(1);
 
-  const catalogue = handleProductsCatalogue(catalogueProducts);
+  const catalogue = handleProductsCatalogue(products);
   const pages = sliceCatalogue(catalogue);
 
   const width = useWindowSize();
@@ -41,7 +52,7 @@ const Catelogue = () => {
         <meta name="application-name" content={setup.website.name} />
       </Head>
       <CatalogueWrapper activePage={activePage} setActivePage={setActivePage}>
-        <CatalogueFirstPage />
+        <CatalogueFirstPage img={firstImage} />
         {width
           ? width < 992
             ? Object.entries(catalogue).map(([prop, products], index) => {
@@ -59,10 +70,35 @@ const Catelogue = () => {
                 );
               })
           : null}
-        <CatalogueFirstPage img={catalogueImg.src} />
+        <CatalogueFirstPage img={lastImage} />
       </CatalogueWrapper>
     </>
   );
 };
 
 export default Catelogue;
+
+export const getServerSideProps: GetServerSideProps<IProps> = async (
+  context
+) => {
+  try {
+    const { data } = await getCatalogueApi();
+    const response = data.data;
+    return {
+      props: {
+        products: response.products,
+        firstImage: handleFile(response.firstImage)?.path || null,
+        lastImage: handleFile(response.lastImage)?.path || null,
+      },
+    };
+  } catch (error) {
+    console.log(JSON.stringify(error, null, 2));
+    return {
+      props: {
+        products: [],
+        firstImage: null,
+        lastImage: null,
+      },
+    };
+  }
+};

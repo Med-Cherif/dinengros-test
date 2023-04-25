@@ -1,7 +1,7 @@
 import { ICatalogue, IProductCatalogue } from "interfaces/catalogue";
 
 export default function handleProductsCatalogue(
-  products: IProductCatalogue[],
+  products: unknown[],
   by: number = 12
 ) {
   const catalogue = {};

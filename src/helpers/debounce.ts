@@ -1,4 +1,4 @@
-export default function debounce(func, wait, immediate) {
+export default function debounce(func: any, wait = 400, immediate?: any) {
   let timeout;
 
   return function executedFunction() {
@@ -23,7 +23,7 @@ export default function debounce(func, wait, immediate) {
 export function onDelayClick(callback, delay = 400) {
   let timeoutId;
 
-  function onClick() {
+  return function onClick() {
     // Clear previous timeout, if it exists
     clearTimeout(timeoutId);
 
@@ -32,7 +32,5 @@ export function onDelayClick(callback, delay = 400) {
       // Call the callback function here
       callback();
     }, delay);
-  }
-
-  return onClick;
+  };
 }

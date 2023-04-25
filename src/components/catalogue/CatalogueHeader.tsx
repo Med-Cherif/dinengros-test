@@ -10,6 +10,12 @@ import HeaderHoverEffect from "./HeaderHoverEffect";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import useWindowSize from "@hook/useWindowSize";
+import debounce, { onDelayClick } from "@helpers/debounce";
+import useLoading from "@hook/useLoading";
+import toastAlert from "@helpers/toastAlert";
+import Spinner from "@component/Spinner";
+import RenderConditional from "@component/common/RenderConditional";
+// import { debounce } from "lodash";
 
 const StyledPagesControl = styled.div`
   position: absolute;
@@ -31,46 +37,54 @@ const StyledPagesControl = styled.div`
 const CatalogueHeader = ({ activePage, childrenCount }) => {
   const setup = useAppSelector((state) => state.setup);
 
+  const { isLoading, load, stopLoad } = useLoading();
+
   const width = useWindowSize();
   const isMedium = width < 992;
 
   const onPdfClick = async () => {
-    const pages = document.querySelectorAll(".catalogue-page");
-
-    const pdf = new jsPDF({
-      // orientation: "landscape",
-      // unit: "px",
-      // format: [700, 600],
-    });
+    load();
 
     const parent = document.querySelector(".slider-container") as HTMLElement;
 
-    if (!isMedium) {
-      parent.style.minWidth = `${640}px`;
-    }
+    try {
+      const pages = document.querySelectorAll(".catalogue-page");
 
-    for (let i = 0; i < pages.length; i++) {
-      const page = pages[i] as any;
+      const pdf = new jsPDF({});
 
-      const canvas = await html2canvas(page, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        // width: 640,
-      });
-      const imageData = canvas.toDataURL("image/jpeg", 1.0) as any;
-
-      // console.log(imageData);
-
-      pdf.addImage(imageData, "JPEG", 10, 10, 190, 277);
-      if (i < pages.length - 1) {
-        pdf.addPage();
+      if (!isMedium) {
+        parent.style.minWidth = `${640}px`;
       }
+
+      for (let i = 0; i < pages.length; i++) {
+        const page = pages[i] as any;
+
+        const canvas = await html2canvas(page, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          // width: 640,
+        });
+
+        const imageData = canvas.toDataURL("image/jpeg", 1.0) as any;
+
+        // console.log(imageData);
+
+        pdf.addImage(imageData, "JPEG", 10, 10, 190, 277);
+        if (i < pages.length - 1) {
+          pdf.addPage();
+        }
+      }
+
+      parent.style.minWidth = "unset";
+
+      pdf.save("catalogue.pdf");
+    } catch (error) {
+      toastAlert("Something went wrong", "error");
+      parent.style.minWidth = "unset";
+    } finally {
+      stopLoad();
     }
-
-    parent.style.minWidth = "unset";
-
-    pdf.save("catalogue.pdf");
   };
 
   return (
@@ -88,9 +102,9 @@ const CatalogueHeader = ({ activePage, childrenCount }) => {
           {setup.header.logo ? (
             <Image src={setup.header.logo} alt="logo" maxHeight={42} />
           ) : (
-            <h1 style={{ color: "crimson", textTransform: "uppercase" }}>
+            <h2 style={{ color: "crimson", textTransform: "uppercase" }}>
               {setup.website.name}
-            </h1>
+            </h2>
           )}
         </a>
       </Link>
@@ -99,7 +113,11 @@ const CatalogueHeader = ({ activePage, childrenCount }) => {
           style={{ width: 40, cursor: "pointer" }}
           onClick={onPdfClick}
         >
-          <i className="fa-solid fa-file-pdf fa-xl"></i>
+          <RenderConditional
+            when={isLoading}
+            render={<Spinner />}
+            otherwise={<i className="fa-solid fa-file-pdf fa-xl"></i>}
+          />
         </HeaderHoverEffect>
         <Typography fontWeight={600} color="white">
           {activePage} / {childrenCount}
